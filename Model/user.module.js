@@ -1,9 +1,14 @@
 const mongoose = require("mongoose");
 
-const userSchema = mongoose.Schema({
-  text: String,
-});
+const UserSchema = mongoose.Schema(
+  {
+    chat: { type: String },
+  },
+  {
+    versionKey: false,
+  }
+);
 
-const UserModel = mongoose.model("user", userSchema);
+const UserModel = mongoose.model("coffer", UserSchema);
 
 module.exports = { UserModel };

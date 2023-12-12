@@ -1,23 +1,23 @@
 const express = require("express");
-const { connection } = require("./db");
-const cors = require("cors");
-const { UserRoute } = require("./Routes/user.route");
-
+require("dotenv").config();
+const { connection } = require("./db.js");
+import { UserRouter } from "./Routes/user.route.js";
 const app = express();
-app.use(cors({ origin: "*" }));
+const cors = require("cors");
 app.use(express.json());
+app.use(cors({ origin: "*" }));
 
 app.get("/", (req, res) => {
-  res.send("home page");
+  res.status(200).send("Api is working fine.");
 });
-app.use("/chat", UserRoute);
 
-app.listen(1000, async () => {
+app.use("/chat", UserRouter);
+app.listen(process.env.port, async () => {
   try {
     await connection;
-    console.log("server");
-  } catch (error) {
-    console.log(error);
+    console.log("Connected to Database");
+  } catch (e) {
+    console.log("Not Connected to Database");
   }
-  console.log("1000");
+  console.log(`Server is running at port ${process.env.port}`);
 });

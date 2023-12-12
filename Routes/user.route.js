@@ -1,22 +1,32 @@
 const express = require("express");
+require("dotenv").config();
 const { UserModel } = require("../Model/user.module");
 
-const UserRoute = express.Router();
+const UserRouter = express.Router();
 
-UserRoute.get("/", async (req, res) => {
-  const data = await ChatModel.find();
-  res.status(200).send({ data });
-});
-
-UserRoute.post("/create", async (req, res) => {
-  const payload = req.body;
+UserRouter.get("/", async (req, res) => {
   try {
-    const data = new UserModel(payload);
-    await data.save();
-    res.send({ msg: "create data add" });
-  } catch (error) {
-    res.send({ msg: "something wrong", error: error.message });
+    const chat = await UserModel.find();
+    res.status(200).send({ message: "Filtered Coffer", chat });
+    console.log("res", chat);
+  } catch (err) {
+    res.status(401).send({
+      message: "Error in your API request",
+      error: err,
+    });
   }
 });
 
-module.exports = { UserRoute };
+UserRouter.post("/add", async (req, res) => {
+  try {
+    const chat = await UserModel.insertMany(req.body);
+    res.status(200).send({ message: "chat Successfully added", chat });
+  } catch (err) {
+    res.status(401).send({
+      message: "Error in adding coffer",
+      error: err,
+    });
+  }
+});
+
+module.exports = { UserRouter };
