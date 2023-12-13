@@ -1,7 +1,9 @@
+const { UserRouter } = require("./Routes/user.route.js");
 const express = require("express");
+
 require("dotenv").config();
 const { connection } = require("./db.js");
-import { UserRouter } from "./Routes/user.route.js";
+
 const app = express();
 const cors = require("cors");
 app.use(express.json());
